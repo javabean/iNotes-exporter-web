@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+	<!--context:component-scan base-package="fr.cedrik.inotes" /-->
+
+	<!--bean class="fr.cedrik.inotes.web.spring.JavaConfig" />
+	<bean class="org.springframework.config.java.process.ConfigurationPostProcessor" /-->
+
+	<!-- Spring support for @Required, @Autowired,
+		JPA's @PersistenceContext and @PersistenceUnit,
+		JSR-250 annotations (javax.annotation.*: @Resource, @PostConstruct, @PreDestroy),
+		JSR-330 annotations (javax.inject.*) -->
+	<context:annotation-config />
+
+	<!--context:property-placeholder location="classpath:/META-INF/spring/spring.properties" /-->
+
+	<!--cache:annotation-driven/-->
+
+	<context:mbean-export />
+
+</beans>

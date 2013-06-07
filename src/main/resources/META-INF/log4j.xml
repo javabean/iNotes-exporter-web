@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<log4j:configuration debug="true" xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- ================================================================== -->
+	<!--                             APPENDERS                              -->
+	<!-- ================================================================== -->
+
+	<!--appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.EnhancedPatternLayout">
+			<param name="ConversionPattern" value="%6r | %d{ISO8601} | %-5p | %c | %t | %x | %m%n" />
+		</layout>
+	</appender-->
+	<!-- new way of writing to a file (log4j-extras) -->
+	<appender name="file" class="org.apache.log4j.rolling.RollingFileAppender">
+		<param name="File" value="${catalina.base}/logs/iNotes.log" />
+		<param name="Encoding" value="UTF-8" />
+		<rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+			<param name="FileNamePattern" value="${catalina.base}/logs/iNotes.%d{yyyy-MM-dd}.log.gz"/>
+		</rollingPolicy>
+		<layout class="org.apache.log4j.EnhancedPatternLayout">
+			<param name="ConversionPattern" value="%6r | %d{ISO8601} | %-5p | %c | %t | %x | %m%n" />
+		</layout>
+	</appender>
+	<!--  -->
+	<appender name="messadmin" class="clime.messadmin.providers.log4j.Log4JAppender">
+		<param name="threshold" value="INFO" />
+		<layout class="org.apache.log4j.EnhancedPatternLayout">
+			<param name="ConversionPattern" value="%6r | %d{ISO8601} | %-5p | %c | %t | %x | %m%n" />
+		</layout>
+	</appender>
+
+	<!-- ================================================================== -->
+	<!--                              LOGGERS                               -->
+	<!-- ================================================================== -->
+
+	<logger name="org.springframework">
+		<level value="INFO"/>
+	</logger>
+	<logger name="org.apache">
+		<level value="INFO"/>
+	</logger>
+
+	<logger name="fr.cedrik.inotes">
+		<level value="INFO" />
+	</logger>
+
+	<logger name="fr.cedrik.inotes.web">
+		<level value="INFO" />
+	</logger>
+
+	<!--  -->
+	<root>
+		<priority value="INFO" />
+		<appender-ref ref="file" />
+		<appender-ref ref="messadmin" />
+	</root>
+</log4j:configuration>
