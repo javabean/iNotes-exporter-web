@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import fr.cedrik.inotes.FoldersList;
 import fr.cedrik.inotes.INotesProperties;
@@ -28,6 +31,7 @@ import fr.cedrik.inotes.Session;
  */
 public class ExportServlet extends HttpServlet implements Servlet {
 
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 	private URL webmailURL;
 
 	/**
@@ -91,6 +95,8 @@ public class ExportServlet extends HttpServlet implements Servlet {
 				theFileName = StringUtils.replace(theFileName, "\"", "\\\"");//$NON-NLS-1$//$NON-NLS-2$
 				String contentDisposition = "inline;filename=\""+theFileName+'"';//$NON-NLS-1$
 				response.setHeader("Content-Disposition", contentDisposition);//$NON-NLS-1$
+				MDC.put("user", theFileName);
+				logger.info("Exporting email archive for {}", theFileName);
 			}
 //			resp.setHeader("Content-Description", "");//$NON-NLS-1$
 //			resp.setHeader("Content-Transfer-Encoding", "binary");//$NON-NLS-1$//$NON-NLS-2$
@@ -106,6 +112,7 @@ public class ExportServlet extends HttpServlet implements Servlet {
 		} finally {
 			Throttler.exportDone();
 			session.logout();
+			MDC.clear();
 		}
 	}
 

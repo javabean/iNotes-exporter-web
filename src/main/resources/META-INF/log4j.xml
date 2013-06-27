@@ -9,7 +9,7 @@
 	<!--appender name="console" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
 		<layout class="org.apache.log4j.EnhancedPatternLayout">
-			<param name="ConversionPattern" value="%6r | %d{ISO8601} | %-5p | %c | %t | %x | %m%n" />
+			<param name="ConversionPattern" value="%6r | %d{ISO8601} | %-5p | %c | %t | %x | %X{user} | %m%n" />
 		</layout>
 	</appender-->
 	<!-- new way of writing to a file (log4j-extras) -->
@@ -20,14 +20,14 @@
 			<param name="FileNamePattern" value="${catalina.base}/logs/iNotes.%d{yyyy-MM-dd}.log.gz"/>
 		</rollingPolicy>
 		<layout class="org.apache.log4j.EnhancedPatternLayout">
-			<param name="ConversionPattern" value="%6r | %d{ISO8601} | %-5p | %c | %t | %x | %m%n" />
+			<param name="ConversionPattern" value="%6r | %d{ISO8601} | %-5p | %c | %t | %x | %X{user} | %m%n" />
 		</layout>
 	</appender>
 	<!--  -->
 	<appender name="messadmin" class="clime.messadmin.providers.log4j.Log4JAppender">
 		<param name="threshold" value="INFO" />
 		<layout class="org.apache.log4j.EnhancedPatternLayout">
-			<param name="ConversionPattern" value="%6r | %d{ISO8601} | %-5p | %c | %t | %x | %m%n" />
+			<param name="ConversionPattern" value="%6r | %d{ISO8601} | %-5p | %c | %t | %x | %X{user} | %m%n" />
 		</layout>
 	</appender>
 

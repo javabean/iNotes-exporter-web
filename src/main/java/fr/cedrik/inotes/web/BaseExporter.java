@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import fr.cedrik.inotes.Folder;
 import fr.cedrik.inotes.FoldersList;
@@ -17,6 +19,7 @@ import fr.cedrik.inotes.Session;
  * @author C&eacute;drik LIME
  */
 abstract class BaseExporter {
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public BaseExporter() {
 	}

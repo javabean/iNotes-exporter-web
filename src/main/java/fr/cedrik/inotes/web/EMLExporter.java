@@ -11,6 +11,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.mail.MailParseException;
 
 import fr.cedrik.inotes.BaseINotesMessage;
 import fr.cedrik.inotes.Folder;
@@ -57,9 +58,14 @@ class EMLExporter extends BaseExporter {
 					outZip.putNextEntry(entry);
 					// write message
 					Writer outWriter = new BufferedWriter(new OutputStreamWriter(outZip, Charsets.US_ASCII), 32*1024);
-					IteratorChain<String> mime = session.getMessageMIME(message);
+					IteratorChain<String> mime;
+					try {
+						mime = session.getMessageMIME(message);
+					} catch (MailParseException mpe) {
+						mime = null;
+					}
 					if (mime == null || ! mime.hasNext()) {
-//						logger.error("Empty MIME message! ({})", message);
+						logger.error("Empty MIME message or error while retrieving! ({})", message);
 						IOUtils.closeQuietly(mime);
 						break;
 					}
