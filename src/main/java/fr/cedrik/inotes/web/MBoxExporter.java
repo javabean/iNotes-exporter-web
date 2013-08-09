@@ -7,7 +7,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -38,6 +40,7 @@ class MBoxExporter extends BaseExporter {
 	@Override
 	public void export(ZipOutputStream outZip, FoldersList folders, Session session, String baseName) throws IOException {
 		MBoxrd mboxrd = new MBoxrd();
+		List<String> errors = new ArrayList<String>();
 		for (Folder folder : folders) {
 			if (folder.isAllMails()) {
 				continue;
@@ -59,7 +62,9 @@ class MBoxExporter extends BaseExporter {
 						mime = null;
 					}
 					if (mime == null || ! mime.hasNext()) {
-						logger.error("Empty MIME message or error while retrieving! ({})", message);
+						String log = "Empty MIME message or error while retrieving! (message: "+message+" folder: "+folder+"); skipping remaining messages in this folder.";
+						logger.error(log);
+						errors.add(log);
 						IOUtils.closeQuietly(mime);
 						break;
 					}
@@ -77,6 +82,7 @@ class MBoxExporter extends BaseExporter {
 				outZip.closeEntry();
 			}
 		}
+		appendErrorLog(outZip, errors);
 	}
 
 }

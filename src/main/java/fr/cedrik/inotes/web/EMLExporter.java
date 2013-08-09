@@ -7,6 +7,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -41,6 +43,7 @@ class EMLExporter extends BaseExporter {
 	@Override
 	public void export(ZipOutputStream outZip, FoldersList folders, Session session, String baseName) throws IOException {
 		EML eml = new EML();
+		List<String> errors = new ArrayList<String>();
 		for (Folder folder : folders) {
 			if (folder.isAllMails()) {
 				continue;
@@ -65,7 +68,9 @@ class EMLExporter extends BaseExporter {
 						mime = null;
 					}
 					if (mime == null || ! mime.hasNext()) {
-						logger.error("Empty MIME message or error while retrieving! ({})", message);
+						String log = "Empty MIME message or error while retrieving! (message: "+message+" folder: "+folder+"); skipping remaining messages in this folder.";
+						logger.error(log);
+						errors.add(log);
 						IOUtils.closeQuietly(mime);
 						break;
 					}
@@ -79,6 +84,7 @@ class EMLExporter extends BaseExporter {
 				}
 			}
 		}
+		appendErrorLog(outZip, errors);
 	}
 
 	protected String computeZipMailFileName(BaseINotesMessage message, Folder folder, FoldersList folders, TLongSet exportedMails, String baseName) {

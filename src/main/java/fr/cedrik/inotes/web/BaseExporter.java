@@ -3,8 +3,12 @@
  */
 package fr.cedrik.inotes.web;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.List;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import fr.cedrik.inotes.Folder;
 import fr.cedrik.inotes.FoldersList;
 import fr.cedrik.inotes.Session;
+import fr.cedrik.inotes.util.Charsets;
 
 /**
  * @author C&eacute;drik LIME
@@ -48,4 +53,17 @@ abstract class BaseExporter {
 		return StringUtils.replaceChars(folderName, "\\/:*?\"<>|", "_________");
 	}
 
+	protected void appendErrorLog(ZipOutputStream outZip, List<String> errors) throws IOException {
+		if (errors.isEmpty()) {
+			return;
+		}
+		ZipEntry entry = new ZipEntry("errors.txt");//$NON-NLS-1$
+		outZip.putNextEntry(entry);
+		Writer outWriter = new BufferedWriter(new OutputStreamWriter(outZip, Charsets.UTF_8), 4*1024);
+		for (String log : errors) {
+			outWriter.append(log).append("\r\n");//$NON-NLS-1$
+		}
+		outWriter.flush();
+		outZip.closeEntry();
+	}
 }
