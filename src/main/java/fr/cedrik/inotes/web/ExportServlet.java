@@ -107,7 +107,9 @@ public class ExportServlet extends HttpServlet implements Servlet {
 			response.flushBuffer();
 		} catch (Exception e) {
 			log("Error while exporting emails for "+login+": ", e);
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error while exporting emails: "+e.toString());
+			if (! response.isCommitted()) {
+				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error while exporting emails: "+e.toString());
+			}
 			return;
 		} finally {
 			Throttler.exportDone();

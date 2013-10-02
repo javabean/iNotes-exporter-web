@@ -13,7 +13,7 @@ import fr.cedrik.inotes.BaseINotesMessage;
  * @author C&eacute;drik LIME
  */
 class MBoxrd extends fr.cedrik.inotes.fs.mbox.MBoxrd {
-	public static final String MAILBOX_SUFFIX = fr.cedrik.inotes.fs.mbox.MBoxrd.EXTENSION_MBOXRD;
+	public static final String MAILBOX_SUFFIX = ".mbox";//fr.cedrik.inotes.fs.mbox.MBoxrd.EXTENSION_MBOXRD;//$NON-NLS-1$
 
 	public MBoxrd() throws IOException {
 		super();
@@ -29,6 +29,6 @@ class MBoxrd extends fr.cedrik.inotes.fs.mbox.MBoxrd {
 	 */
 	@Override
 	protected String newLine() {
-		return "\r\n";//$NON-NLS-1$
+		return "\n";//$NON-NLS-1$
 	}
 }

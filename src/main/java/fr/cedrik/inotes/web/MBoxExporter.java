@@ -45,9 +45,17 @@ class MBoxExporter extends BaseExporter {
 			if (folder.isAllMails()) {
 				continue;
 			}
-			session.setCurrentFolder(folder);
 			// messages and meeting notices meta-data
-			INotesMessagesMetaData<? extends BaseINotesMessage> messages = session.getMessagesAndMeetingNoticesMetaData();
+			INotesMessagesMetaData<? extends BaseINotesMessage> messages;
+			try {
+				session.setCurrentFolder(folder);
+				messages = session.getMessagesAndMeetingNoticesMetaData();
+			} catch (IOException ioe) {
+				String log = "Can not change to, or retrieve the list of messages of, folder: "+folder+"; skipping all messages in this folder.";
+				logger.error(log);
+				errors.add(log);
+				continue;
+			}
 			if (! messages.entries.isEmpty()) {
 				ZipEntry entry = new ZipEntry(computeZipFolderName(folder, folders, baseName) + MBoxrd.MAILBOX_SUFFIX);
 				outZip.putNextEntry(entry);
@@ -59,6 +67,8 @@ class MBoxExporter extends BaseExporter {
 					try {
 						mime = session.getMessageMIME(message);
 					} catch (MailParseException mpe) {
+						mime = null;
+					} catch (IOException ioe) {
 						mime = null;
 					}
 					if (mime == null || ! mime.hasNext()) {
