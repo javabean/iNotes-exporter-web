@@ -14,6 +14,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.mail.MailParseException;
 
 import fr.cedrik.inotes.BaseINotesMessage;
@@ -90,9 +91,39 @@ class MBoxExporter extends BaseExporter {
 					entry.setTime(lastExportedMessageDate.getTime());
 				}
 				outZip.closeEntry();
+				setTEXTtype(outZip, entry);
 			}
 		}
 		appendErrorLog(outZip, errors);
 	}
 
+	/**
+	 * Outlook 2011 is an old Carbon app that requires its data file to have a 'TEXT' file type; creator is not used.
+	 * @param outZip
+	 * @param name
+	 * @throws IOException
+	 */
+	private void setTEXTtype(ZipOutputStream outZip, ZipEntry entry) throws IOException {
+		ZipEntry adEntry = new ZipEntry(AppleDouble.getAppleDoubleFileName(entry.getName()));
+		adEntry.setTime(entry.getTime());
+		outZip.putNextEntry(adEntry);
+		outZip.write(APPLE_DOUBLE__TEXT_TYPE);
+		outZip.closeEntry();
+	}
+
+	static final byte[] APPLE_DOUBLE__TEXT_TYPE;
+	static {
+		byte[] RESOURCE_FORK_EMPTY = ArrayUtils.EMPTY_BYTE_ARRAY;
+		byte[] FINDER_INFO_TEXT = new byte[32];
+		FINDER_INFO_TEXT[0] = 'T';
+		FINDER_INFO_TEXT[1] = 'E';
+		FINDER_INFO_TEXT[2] = 'X';
+		FINDER_INFO_TEXT[3] = 'T';
+
+		AppleDouble.EntryDescriptor[] adEntryDescriptors = new AppleDouble.EntryDescriptor[] {
+				new AppleDouble.EntryDescriptor(AppleDouble.EntryDescriptor.FINDER_INFO, FINDER_INFO_TEXT),
+				new AppleDouble.EntryDescriptor(AppleDouble.EntryDescriptor.RESOURCE_FORK, RESOURCE_FORK_EMPTY)
+		};
+		APPLE_DOUBLE__TEXT_TYPE = new AppleDouble(adEntryDescriptors).getBytes();
+	}
 }
