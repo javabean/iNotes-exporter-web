@@ -73,11 +73,11 @@ class MBoxExporter extends BaseExporter {
 						mime = null;
 					}
 					if (mime == null || ! mime.hasNext()) {
-						String log = "Empty MIME message or error while retrieving! (message: "+message+" folder: "+folder+"); skipping remaining messages in this folder.";
+						String log = "Empty MIME message or error while retrieving! (message: "+message+" folder: "+folder+"); skipping this message.";
 						logger.error(log);
 						errors.add(log);
 						IOUtils.closeQuietly(mime);
-						break;
+						continue;
 					}
 					try {
 						mboxrd.writeMIME(outWriter, message, mime);
