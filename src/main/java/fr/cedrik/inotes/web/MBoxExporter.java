@@ -22,6 +22,7 @@ import fr.cedrik.inotes.Folder;
 import fr.cedrik.inotes.FoldersList;
 import fr.cedrik.inotes.INotesMessagesMetaData;
 import fr.cedrik.inotes.Session;
+import fr.cedrik.inotes.util.AppleDouble;
 import fr.cedrik.inotes.util.Charsets;
 import fr.cedrik.inotes.util.IteratorChain;
 
