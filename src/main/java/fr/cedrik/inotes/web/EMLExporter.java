@@ -62,13 +62,6 @@ class EMLExporter extends BaseExporter {
 			if (! messages.entries.isEmpty()) {
 				TLongSet exportedMails = new TLongHashSet((int) (messages.entries.size() / Constants.DEFAULT_LOAD_FACTOR) + 1); // for the current folder
 				for (BaseINotesMessage message : messages.entries) {
-					ZipEntry entry = new ZipEntry(computeZipMailFileName(message, folder, folders, exportedMails, baseName));
-					if (message.getDate() != null) {
-						entry.setTime(message.getDate().getTime());
-					}
-					outZip.putNextEntry(entry);
-					// write message
-					Writer outWriter = new BufferedWriter(new OutputStreamWriter(outZip, Charsets.US_ASCII), 32*1024);
 					IteratorChain<String> mime;
 					try {
 						mime = session.getMessageMIME(message);
@@ -84,6 +77,13 @@ class EMLExporter extends BaseExporter {
 						IOUtils.closeQuietly(mime);
 						continue;
 					}
+					ZipEntry entry = new ZipEntry(computeZipMailFileName(message, folder, folders, exportedMails, baseName));
+					if (message.getDate() != null) {
+						entry.setTime(message.getDate().getTime());
+					}
+					outZip.putNextEntry(entry);
+					// write message
+					Writer outWriter = new BufferedWriter(new OutputStreamWriter(outZip, Charsets.US_ASCII), 32*1024);
 					try {
 						eml.writeMIME(outWriter, message, mime);
 					} finally {
