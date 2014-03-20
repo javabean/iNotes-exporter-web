@@ -24,10 +24,9 @@
 	<!-- - - - - - - - - - -->
 
 	<!-- Coordinates -->
-	<!-- Coordinates -->
 	<groupId>fr.cedrik.inotes</groupId>
 	<artifactId>inotes-exporter-web</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 
 	<!-- Inheritance & Dependencies -->
 	<dependencyManagement>
@@ -215,8 +214,8 @@
 		<developer>
 			<id>clime</id>
 			<name>Cédrik LIME</name>
-			<email>CLime@digitas.fr</email>
-			<url>http://pro.cedrik.tel</url>
+			<email>cedrik_lime@users.sourceforge.net</email>
+			<url>http://cedrik.tel</url>
 			<roles>
 				<role>architect</role>
 				<role>developer</role>
@@ -228,8 +227,8 @@
 	<contributors></contributors>
 
 	<organization>
-		<name>DigitasLBi France</name>
-		<url>http://www.digitas.fr</url>
+		<name>Cédrik LIME</name>
+		<url>https://github.com/javabean/iNotes-exporter-web/</url>
 	</organization>
 
 	<!-- - - - - - - -  -->
@@ -388,7 +387,7 @@
 	<repositories></repositories>
 	<pluginRepositories></pluginRepositories>
 	<distributionManagement></distributionManagement>
+
 	<profiles>
 	</profiles>
-
 </project>
