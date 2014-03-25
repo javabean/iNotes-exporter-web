@@ -66,6 +66,9 @@ All download slots are currently busy. Please try again in a few minutes!
 		</li>
 		<li>Select one of you freshly downloaded file, and import it</li>
 		<li>Wash, rince, and repeat until you have imported all your mails. Congratulations!</li>
+		<li>Note: if you don't see your imported emails, be sure to un-check <cite>Hide local folders on my computer</cite> in Outlook's <cite>General</cite> preferences: <i class="icon-chevron-right"></i><br />
+			<img src="mac/MacPrefs.png" align="top" />
+		</li>
 	</ol>
 </fieldset>
 
