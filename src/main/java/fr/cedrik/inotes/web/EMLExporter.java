@@ -5,8 +5,8 @@ package fr.cedrik.inotes.web;
 
 import java.util.zip.ZipOutputStream;
 
-import fr.cedrik.inotes.fs.BaseZipWriter;
-import fr.cedrik.inotes.fs.maildir.EMLZipWriter;
+import fr.cedrik.email.fs.BaseZipWriter;
+import fr.cedrik.email.fs.maildir.EMLZipWriter;
 
 /**
  * @author C&eacute;drik LIME

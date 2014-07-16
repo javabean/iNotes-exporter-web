@@ -18,14 +18,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailParseException;
 
-import fr.cedrik.inotes.BaseINotesMessage;
+import fr.cedrik.email.FoldersList;
+import fr.cedrik.email.MessagesMetaData;
+import fr.cedrik.email.fs.BaseZipWriter;
+import fr.cedrik.email.spi.Message;
 import fr.cedrik.inotes.Folder;
-import fr.cedrik.inotes.FoldersList;
-import fr.cedrik.inotes.INotesMessagesMetaData;
 import fr.cedrik.inotes.Session;
-import fr.cedrik.inotes.fs.BaseZipWriter;
-import fr.cedrik.inotes.util.Charsets;
-import fr.cedrik.inotes.util.IteratorChain;
+import fr.cedrik.util.Charsets;
+import fr.cedrik.util.IteratorChain;
 
 /**
  * @author C&eacute;drik LIME
@@ -48,7 +48,7 @@ abstract class BaseExporter {
 				continue;
 			}
 			// messages and meeting notices meta-data
-			INotesMessagesMetaData<? extends BaseINotesMessage> messages;
+			MessagesMetaData<? extends Message> messages;
 			try {
 				session.setCurrentFolder(folder);
 				messages = session.getMessagesAndMeetingNoticesMetaData();
@@ -61,7 +61,7 @@ abstract class BaseExporter {
 			if (! messages.entries.isEmpty()) {
 				String folderChainName = computeZipFolderName(folder, folders);
 				zipWriter.openFolder(folderChainName);
-				for (BaseINotesMessage message : messages.entries) {
+				for (Message message : messages.entries) {
 					IteratorChain<String> mime;
 					try {
 						mime = session.getMessageMIME(message);
