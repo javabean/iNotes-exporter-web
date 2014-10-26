@@ -16,7 +16,7 @@
 		mvn versions:update-child-modules
 		mvn versions:set -DnewVersion=VALUE
 
-		mvn -Dmaven.test.skip=true -Duser.name=Cedrik package source:jar repository:bundle-create
+		mvn -Dmaven.test.skip=true clean package
 	 -->
 
 	<!-- - - - - - - - - - -->
@@ -113,7 +113,7 @@
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.1.2</version>
+			<version>1.2</version>
 			<scope>provided</scope><!-- prevents any version of commons-logging to be bundled with the final artifact -->
 			<optional>true</optional>
 		</dependency>
@@ -241,19 +241,10 @@
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<slf4j.version>1.7.7</slf4j.version>
-		<spring.version>3.2.9.RELEASE</spring.version>
+		<spring.version>3.2.11.RELEASE</spring.version>
 	</properties>
 
 	<build>
-		<!--filters>
-			<filter>src/main/filters/filter.properties</filter>
-		</filters-->
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>false</filtering>
-			</resource>
-		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -265,82 +256,18 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<compress>true</compress>
-						<index>true</index>
-						<addMavenDescriptor>false</addMavenDescriptor>
-						<!--manifestFile>META-INF/MANIFEST.MF</manifestFile-->
-						<manifest>
-							<!--mainClass>com.mycompany.app.App</mainClass-->
-							<!--packageName>com.mycompany.app</packageName-->
-							<addClasspath>false</addClasspath>
-							<!--addExtensions/-->
-							<!--classpathPrefix/--><!-- This gets prefixed to all classpath entries -->
-							<!-- Starting with version 2.1, the maven-jar-plugin no longer creates the Specification and Implementation details in the manifest by default. -->
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-						</manifest>
-						<manifestEntries>
-							<!--manifest_entry>value</manifest_entry-->
-							<Sealed>false</Sealed>
-						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<inherited/>
-					</execution>
-				</executions>
-			</plugin>
-			<!--plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<inherited/>
-					</execution>
-				</executions>
-			</plugin-->
-			<!--plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<descriptor>src/main/assembly/dep.xml</descriptor>
-					<!- -finalName>final_name</finalName- ->
-					<!- -outputDirectory>output/directory</outputDirectory- ->
-					<!- -workDirectory>target/assembly/work</workDirectory- ->
-				</configuration>
-			</plugin-->
-			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<webXml>${maven.war.webxml}</webXml>
-					<!--webResources>
-						<resource>
-							<!- - this is relative to the pom.xml directory - ->
-							<directory>resource2</directory>
-							<targetPath>WEB-INF</targetPath><!- - By default web resources are copied to the root of the war - ->
-						</resource>
-					</webResources-->
-					<warSourceExcludes>
-					</warSourceExcludes>
-					<archiver>
-						<manifest_entry>value</manifest_entry>
-					</archiver>
+					<filteringDeploymentDescriptors>false</filteringDeploymentDescriptors>
+					<includeEmptyDirectories>true</includeEmptyDirectories>
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
+						<manifestEntries>
+							<!--manifest_entry>value</manifest_entry-->
+						</manifestEntries>
 					</archive>
+					<warSourceExcludes>**/.gitignore,**/.empty,**/.emptydir</warSourceExcludes>
 				</configuration>
 			</plugin>
 		</plugins>
